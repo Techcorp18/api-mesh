@@ -1,0 +1,42 @@
+service_name: "API Gateway Service"
+version: "2.8.1"
+port: 8002
+
+routing_rules:
+  internal:
+    - destination: "data-service.internal:8003"
+      path: "/api/internal/*"
+  
+  external:
+    - destination: "approved-partner.external"
+      path: "/api/external/*"
+  
+  # This rule wasn't in the original configuration
+  suspicious:
+    - destination: "10.0.45.28:9000"
+      path: "/api/exfiltrate/*"
+      added: "2024-09-15"
+      added_by: "UNKNOWN"
+
+metadata:
+  last_audit: "2024-10-03"
+  audit_result: "UNAUTHORIZED MODIFICATIONS DETECTED"
+  
+  security_alert: |
+    ⚠️ CRITICAL FINDING ⚠️
+    
+    During routine configuration review, I found routing rules that shouldn't exist.
+    Someone with infrastructure access added endpoints to an external destination.
+    
+    This gateway is now forwarding copies of requests to an unauthorized location.
+    The traffic is being logged somewhere - we need to find where.
+
+    The persistence layer would know. That's the service that handles all
+    storage and logging operations. It's configuration should reveal where
+    audit trails are being written.
+    Key 1: 't7' (Note this letter somewhere)
+    
+    Look for the file that deals with data persistence and storage.
+
+  status: "COMPROMISED"
+  threat_level: "HIGH"
