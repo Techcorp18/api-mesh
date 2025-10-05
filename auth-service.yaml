@@ -1,0 +1,34 @@
+service_name: "Authentication Service"
+version: "3.1.2"
+port: 8001
+owner: "Security Team"
+
+configuration:
+  token_expiry: 3600
+  refresh_enabled: true
+  mfa_required: false  # Note: Should be true - someone disabled this
+
+metadata:
+  last_audit: "2024-10-02"
+  audited_by: "Alex Chen"
+  
+  investigation_notes: |
+    AUTH SERVICE ANALYSIS - Alex Chen
+    ================================
+    
+    The authentication layer itself appears functional, but I found something 
+    interesting: MFA (multi-factor authentication) was disabled 3 weeks ago.
+    
+    Change log shows it was disabled by someone with admin privileges.
+    Timestamp: 2024-09-12, 03:47 AM
+    
+    Who works at 3:47 AM? Someone who doesn't want to be seen.
+    
+    The authentication succeeds, then requests move to the next layer...
+    
+    NEXT INVESTIGATION:
+    Check gateway-service.yaml - that's where traffic routing happens.
+    The gateway sits between internal services and external connections.
+    If they wanted to intercept data, that's where they'd do it.
+    
+  status: "OPERATIONAL - BUT COMPROMISED MFA SETTINGS."
