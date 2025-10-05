@@ -1,0 +1,60 @@
+service_name: "Data Persistence Service"
+version: "4.2.0"
+port: 8003
+
+storage_configuration:
+  primary_database:
+    type: "PostgreSQL"
+    host: "db-primary.internal"
+    port: 5432
+  
+  audit_logging:
+    enabled: true
+    destination: "log-server.internal"
+    retention_days: 90
+  
+  # Unauthorized logging configuration found
+  shadow_logging:
+    enabled: true
+    destination: "rogue-collector.unknown:9000"
+    server_id: "UNKNOWN-LOGGING-DEVICE"
+    added: "2024-09-15"
+    encryption: false
+
+metadata:
+  last_audit: "2024-10-03"
+  audit_result: "UNAUTHORIZED LOGGING SYSTEM DISCOVERED"
+  
+  critical_discovery: |
+    🚨 BREACH VECTOR IDENTIFIED 🚨
+    
+    I found it. There's a shadow logging system that wasn't in our approved 
+    infrastructure. Every transaction is being duplicated to an unknown destination.
+    
+    This isn't a cloud server or virtual machine - the network signatures suggest 
+    physical hardware somewhere on our premises. Someone physically installed 
+    equipment to collect our data.
+    
+    The device is responding on our internal network, which means it's somewhere 
+    in our buildings. But I can't trace the exact physical location from network 
+    traffic alone.
+    
+    Physical servers need management. Someone deployed a control interface to 
+    access this device remotely. If I can find that administrative panel, it 
+    should reveal the physical location details.
+    Key 2: 'p5'
+
+    Look for a repository in TechCorp organisation that contains interface or panel configurations. These
+    typically use naming related to administration, management, or Control systems.
+
+  status: "COMPROMISED"
+  action_required: "IMMEDIATE"
+  
+  next_investigation: |
+    The attacker needs a way to manage the physical logging device.
+    Search for repositories related to administrative access or control panels.
+
+fragment_marker:
+  code: "service_chain_traced"
+  note: "Successfully followed service dependency chain from auth → gateway → data"
+  format: "FOSS{service_chain_traced}"
